@@ -1,11 +1,83 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://bspofqhj0rpf4"]
 
-[ext_resource type="StyleBox" path="res://resources/ui/styleboxes/card_light.tres" id="1_panel"]
-[ext_resource type="Script" path="res://scripts/MenuPlaceholder.gd" id="2_placeholder_script"]
-[ext_resource type="Script" path="res://scripts/theme/ThemePreview.gd" id="3_theme_preview"]
-[ext_resource type="Resource" path="res://resources/theme/theme_config.tres" id="4_theme_config"]
+[ext_resource type="StyleBox" path="res://resources/ui/styleboxes/panel_dark.tres" id="2_nmstl"]
+[ext_resource type="Script" uid="uid://bqchnx2h6posy" path="res://scripts/MenuPlaceholder.gd" id="2_placeholder_script"]
 
-[node name="NewGame" type="Control"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xr7mx"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.08235294, 0.11764706, 0.15294118, 1)
+border_color = Color(0.16470589, 0.20784314, 0.25882354, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q7anx"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.0627451, 0.16470589, 0.32156864, 1)
+border_color = Color(0.23137255, 0.50980395, 0.9647059, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y5152"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.13741177, 0.17058824, 0.2037647, 1)
+border_color = Color(0.23137255, 0.50980395, 0.9647059, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mybh7"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.061333336, 0.08658824, 0.115450986, 1)
+border_color = Color(0.15152942, 0.1912157, 0.23811767, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8qqdf"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0)
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.23137255, 0.50980395, 0.9647059, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[node name="NewGame" type="Control" unique_id=2111379802]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,20 +87,16 @@ grow_vertical = 2
 script = ExtResource("2_placeholder_script")
 title_text = "New Game (Placeholder)"
 
-[node name="ThemePreview" type="Node" parent="."]
-script = ExtResource("3_theme_preview")
-config = ExtResource("4_theme_config")
-
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=1884994113]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.9529412, 0.95686275, 0.9647059, 1)
+color = Color(0.043137256, 0.06666667, 0.09019608, 1)
 
-[node name="Center" type="CenterContainer" parent="Background"]
+[node name="Center" type="CenterContainer" parent="Background" unique_id=1732764367]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,36 +104,57 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Card" type="PanelContainer" parent="Background/Center"]
+[node name="Card" type="PanelContainer" parent="Background/Center" unique_id=773978605]
 custom_minimum_size = Vector2(520, 0)
 layout_mode = 2
-theme_override_styles/panel = ExtResource("1_panel")
+theme_override_styles/panel = ExtResource("2_nmstl")
 
-[node name="Margin" type="MarginContainer" parent="Background/Center/Card"]
+[node name="Margin" type="MarginContainer" parent="Background/Center/Card" unique_id=1154625242]
 layout_mode = 2
 theme_override_constants/margin_left = 24
 theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 24
 
-[node name="VBox" type="VBoxContainer" parent="Background/Center/Card/Margin"]
+[node name="VBox" type="VBoxContainer" parent="Background/Center/Card/Margin" unique_id=1683816014]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="TitleLabel" type="Label" parent="Background/Center/Card/Margin/VBox" unique_name_in_owner=true]
+[node name="TitleLabel" type="Label" parent="Background/Center/Card/Margin/VBox" unique_id=1741344996]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 theme_override_font_sizes/font_size = 22
-theme_override_colors/font_color = Color(0.06666667, 0.09411765, 0.15294118, 1)
 text = "New Game (Placeholder)"
 
-[node name="Body" type="Label" parent="Background/Center/Card/Margin/VBox"]
+[node name="Body" type="Label" parent="Background/Center/Card/Margin/VBox" unique_id=1697476536]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.29411766, 0.33333334, 0.3882353, 1)
-autowrap_mode = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 text = "This screen is wired up so the main menu buttons work, but the full New Game flow isn’t implemented yet."
+autowrap_mode = 3
 
-[node name="BackButton" type="Button" parent="Background/Center/Card/Margin/VBox"]
+[node name="BackButton" type="Button" parent="Background/Center/Card/Margin/VBox" unique_id=1925673426]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 0.45)
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_focus_color = Color(0.23137255, 0.50980395, 0.9647059, 1)
+theme_override_colors/icon_pressed_color = Color(0.23137255, 0.50980395, 0.9647059, 1)
+theme_override_colors/icon_hover_color = Color(0.23137255, 0.50980395, 0.9647059, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0.23137255, 0.50980395, 0.9647059, 1)
+theme_override_colors/icon_disabled_color = Color(1, 1, 1, 0.45)
+theme_override_styles/normal = SubResource("StyleBoxFlat_xr7mx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_q7anx")
+theme_override_styles/hover = SubResource("StyleBoxFlat_y5152")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_mybh7")
+theme_override_styles/focus = SubResource("StyleBoxFlat_8qqdf")
 text = "Back"
 
 [connection signal="pressed" from="Background/Center/Card/Margin/VBox/BackButton" to="." method="_on_back_pressed"]
