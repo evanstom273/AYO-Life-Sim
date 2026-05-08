@@ -1,0 +1,4 @@
+Lucide Icons
+Source: https://lucide.dev/
+Repository: https://github.com/lucide-icons/lucide
+License: ISC License

@@ -1,0 +1,18 @@
+[gd_resource type="StyleBoxTexture" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/ui/card_bg_dark.svg" id="1_card_bg_dark"]
+
+[resource]
+texture = ExtResource("1_card_bg_dark")
+texture_margin_left = 16
+texture_margin_top = 16
+texture_margin_right = 16
+texture_margin_bottom = 16
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+axis_stretch_horizontal = 0
+axis_stretch_vertical = 0
+draw_center = true
+modulate = Color(1, 1, 1, 1)

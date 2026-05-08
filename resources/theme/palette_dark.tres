@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ThemePalette" format=3 uid="uid://cyl6xtxg03orx"]
+
+[ext_resource type="Script" uid="uid://ccusjdqendxai" path="res://scripts/theme/ThemePalette.gd" id="1_ThemePalette"]
+
+[resource]
+script = ExtResource("1_ThemePalette")
+main_bg = Color(0.043137256, 0.06666667, 0.09019608, 1)
+panel_bg = Color(0.06666667, 0.09411765, 0.1254902, 1)
+card_bg = Color(0.08235294, 0.11764706, 0.15294118, 1)
+border = Color(0.16470589, 0.20784314, 0.25882354, 1)
+text_primary = Color(1, 1, 1, 1)
+text_secondary = Color(1, 1, 1, 1)
+accent_blue = Color(0.23137255, 0.50980395, 0.9647059, 1)
+selected_bg = Color(0.0627451, 0.16470589, 0.32156864, 1)
+money_green = Color(0.20784314, 0.76862746, 0.41568628, 1)
+warning_orange = Color(0.9607843, 0.61960787, 0.043137256, 1)
+danger_red = Color(0.9372549, 0.26666668, 0.26666668, 1)

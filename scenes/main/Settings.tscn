@@ -1,0 +1,71 @@
+[gd_scene format=3]
+
+[ext_resource type="StyleBox" path="res://resources/ui/styleboxes/card_light.tres" id="1_panel"]
+[ext_resource type="Script" path="res://scripts/MenuPlaceholder.gd" id="2_placeholder_script"]
+[ext_resource type="Script" path="res://scripts/theme/ThemePreview.gd" id="3_theme_preview"]
+[ext_resource type="Resource" path="res://resources/theme/theme_config.tres" id="4_theme_config"]
+
+[node name="Settings" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_placeholder_script")
+title_text = "Settings (Placeholder)"
+
+[node name="ThemePreview" type="Node" parent="."]
+script = ExtResource("3_theme_preview")
+config = ExtResource("4_theme_config")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.9529412, 0.95686275, 0.9647059, 1)
+
+[node name="Center" type="CenterContainer" parent="Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Card" type="PanelContainer" parent="Background/Center"]
+custom_minimum_size = Vector2(520, 0)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_panel")
+
+[node name="Margin" type="MarginContainer" parent="Background/Center/Card"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="VBox" type="VBoxContainer" parent="Background/Center/Card/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="Background/Center/Card/Margin/VBox" unique_name_in_owner=true]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.06666667, 0.09411765, 0.15294118, 1)
+text = "Settings (Placeholder)"
+
+[node name="Body" type="Label" parent="Background/Center/Card/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.29411766, 0.33333334, 0.3882353, 1)
+autowrap_mode = 3
+text = "This screen is wired up so the main menu buttons work, but the actual settings UI isn’t implemented yet."
+
+[node name="BackButton" type="Button" parent="Background/Center/Card/Margin/VBox"]
+layout_mode = 2
+text = "Back"
+
+[connection signal="pressed" from="Background/Center/Card/Margin/VBox/BackButton" to="." method="_on_back_pressed"]

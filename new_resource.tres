@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PeopleResource" format=3 uid="uid://ci0f1xtpylhjl"]
+
+[ext_resource type="Script" uid="uid://h2lj6qnbr8k4" path="res://scripts/data/PersonData.gd" id="1_g5ko2"]
+[ext_resource type="Script" uid="uid://c42nwkeosjkq7" path="res://scripts/data/RelationshipData.gd" id="2_1ivwu"]
+[ext_resource type="Script" uid="uid://c6nmqn58bbki6" path="res://scripts/data/JobData.gd" id="2_uauhc"]
+
+[sub_resource type="Resource" id="Resource_uauhc"]
+script = ExtResource("2_1ivwu")
+metadata/_custom_type_script = "uid://c42nwkeosjkq7"
+
+[resource]
+script = ExtResource("1_g5ko2")
+mother_relationship = SubResource("Resource_uauhc")
+metadata/_custom_type_script = "uid://h2lj6qnbr8k4"

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ThemeConfig" format=3 uid="uid://fgidjww0ed2a"]
+
+[ext_resource type="Script" uid="uid://gsfo35rh0jed" path="res://scripts/theme/ThemeConfig.gd" id="1_ThemeConfig"]
+[ext_resource type="Resource" uid="uid://ex81ubt1887x" path="res://resources/theme/palette_light.tres" id="2_palette_light"]
+[ext_resource type="Resource" uid="uid://cyl6xtxg03orx" path="res://resources/theme/palette_dark.tres" id="3_palette_dark"]
+
+[resource]
+script = ExtResource("1_ThemeConfig")
+light = ExtResource("2_palette_light")
+dark = ExtResource("3_palette_dark")
