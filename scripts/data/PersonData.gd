@@ -5,6 +5,7 @@ class_name PeopleResource
 enum PeopleAge { BABY, TODDLER, CHILD, TEEN, YOUNG_ADULT, ADULT, ELDER }
 enum Region { NORTH_AMERICA, SOUTH_AMERICA, EUROPE, ASIA, AFRICA, OCEANIA }
 enum EducationLevel { NONE, PRESCHOOL, PRIMARY, SECONDARY, COLLEGE, UNIVERSITY }
+enum Gender { NONE, MALE, FEMALE, NON_BINARY }
 
 const MIN_JOB_AGE := 16
 
@@ -18,6 +19,7 @@ const MIN_JOB_AGE := 16
         notify_property_list_changed()
 
 @export var person_age_group: PeopleAge = PeopleAge.BABY
+@export var person_gender: Gender = Gender.NONE
 @export var person_region: Region = Region.NORTH_AMERICA
 @export var current_education: EducationLevel
 @export var highest_education_completed: EducationLevel
@@ -30,6 +32,7 @@ const MIN_JOB_AGE := 16
 @export_range(0, 100, 1) var Smarts: float = 0
 @export_range(-100, 100, 1) var Reputation: float = 0
 @export_range(-100, 100, 1) var Karma: float = 0
+@export_range(-100, 100, 1) var Stress: float = 0
 
 @export_group("Relationships")
 @export var mother_relationship: RelationshipResource

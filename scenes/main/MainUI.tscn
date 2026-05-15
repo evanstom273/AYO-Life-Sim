@@ -820,7 +820,7 @@ border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.23137255, 0.50980395, 0.9647059, 0.5882353)
+border_color = Color(0.23137255, 0.50980395, 0.9647059, 0.21568628)
 corner_radius_top_left = 12
 corner_radius_top_right = 12
 corner_radius_bottom_right = 12
@@ -2018,7 +2018,7 @@ theme_override_constants/separation = 8
 
 [node name="Title" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer/CenterMargin/CenterVBox/ScrollContainer/LifeLogEntries/Entry1/Content/TitleRow" unique_id=1975478508]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.2, 0.8, 0.9, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 theme_override_font_sizes/font_size = 15
@@ -2095,7 +2095,7 @@ theme_override_constants/separation = 8
 
 [node name="Title" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer/CenterMargin/CenterVBox/ScrollContainer/LifeLogEntries/Entry2/Content/TitleRow" unique_id=1432393783]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.2, 0.8, 0.9, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 theme_override_font_sizes/font_size = 15
@@ -2172,7 +2172,7 @@ theme_override_constants/separation = 8
 
 [node name="Title" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer/CenterMargin/CenterVBox/ScrollContainer/LifeLogEntries/Entry3/Content/TitleRow" unique_id=1530213139]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.2, 0.8, 0.9, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 theme_override_font_sizes/font_size = 15
@@ -2249,7 +2249,7 @@ theme_override_constants/separation = 8
 
 [node name="Title" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer/CenterMargin/CenterVBox/ScrollContainer/LifeLogEntries/Entry4/Content/TitleRow" unique_id=175532678]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.2, 0.8, 0.9, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 theme_override_font_sizes/font_size = 15
@@ -2326,7 +2326,7 @@ theme_override_constants/separation = 8
 
 [node name="Title" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer/CenterMargin/CenterVBox/ScrollContainer/LifeLogEntries/Entry5/Content/TitleRow" unique_id=77306210]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.2, 0.8, 0.9, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 theme_override_font_sizes/font_size = 15
@@ -2403,7 +2403,7 @@ theme_override_constants/separation = 8
 
 [node name="Title" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer/CenterMargin/CenterVBox/ScrollContainer/LifeLogEntries/Entry6/Content/TitleRow" unique_id=56772839]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.2, 0.8, 0.9, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 theme_override_font_sizes/font_size = 15
@@ -2480,7 +2480,7 @@ theme_override_constants/separation = 8
 
 [node name="Title" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer/CenterMargin/CenterVBox/ScrollContainer/LifeLogEntries/Entry7/Content/TitleRow" unique_id=1880485240]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.2, 0.8, 0.9, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 theme_override_font_sizes/font_size = 15
@@ -2557,7 +2557,7 @@ theme_override_constants/separation = 8
 
 [node name="Title" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer/CenterMargin/CenterVBox/ScrollContainer/LifeLogEntries/Entry8/Content/TitleRow" unique_id=55424396]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.2, 0.8, 0.9, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 theme_override_font_sizes/font_size = 15
@@ -2629,6 +2629,7 @@ size_flags_vertical = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer/CenterMargin/CenterVBox" unique_id=1996532541]
 layout_mode = 2
+theme_override_constants/separation = 16
 
 [node name="QuickActionsCard" type="PanelContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer/CenterMargin/CenterVBox/HBoxContainer" unique_id=651147667]
 layout_mode = 2
