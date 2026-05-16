@@ -32,6 +32,7 @@ const SECTION_TITLES := {
 @onready var _overview_bottom_row: Control = $ColorRect/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer/CenterMargin/CenterVBox/HBoxContainer
 @onready var _right_separator: Control = $ColorRect/MarginContainer/VBoxContainer/HBoxContainer/VSeparator2
 @onready var _right_bar: Control = $ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RightBar
+@onready var _calendar_card: Node = $ColorRect/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer/CenterMargin/CenterVBox/HBoxContainer/CalendarCard
 
 @onready var _nav_buttons := {
     Section.OVERVIEW: $ColorRect/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer/Home,
@@ -84,3 +85,6 @@ func _set_section(section: int) -> void:
     _filters_button.visible = is_overview
     _right_separator.visible = is_overview
     _right_bar.visible = is_overview
+
+    if _calendar_card != null and _calendar_card.has_method("set_energy_paused"):
+        _calendar_card.call("set_energy_paused", not is_overview)
