@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://c316siykbxl6j" path="res://assets/icons/search.svg" id="17_search"]
 [ext_resource type="Script" uid="uid://d04pu5ypk1mm6" path="res://scripts/WeeklyCalendarCard.gd" id="18_weekly_calendar"]
 [ext_resource type="Script" uid="uid://c7u0h7p2f3laa" path="res://scripts/MainUI.gd" id="19_main_ui"]
+[ext_resource type="Texture2D" uid="uid://bxm5ugy6mgwkk" path="res://assets/icons/power.svg" id="20_pmwyn"]
 [ext_resource type="StyleBox" path="res://resources/ui/styleboxes/card_dark.tres" id="21_card_dark"]
 [ext_resource type="StyleBox" uid="uid://dlgc4febjfgj4" path="res://resources/ui/styleboxes/panel_dark.tres" id="22_panel_dark"]
 
@@ -1249,6 +1250,13 @@ corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pb_orange"]
 bg_color = Color(0.9647059, 0.54509807, 0.14117648, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jbc1f"]
+bg_color = Color(0.5084266, 0.26338732, 1, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
@@ -3108,6 +3116,34 @@ text = "Skip Year "
 icon = ExtResource("10_tu4q0")
 alignment = 0
 
+[node name="SkipMonthBtn2" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer/CenterMargin/CenterVBox/HBoxContainer/CalendarCard/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1160739010]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 0.45)
+theme_override_colors/icon_normal_color = Color(0.23137255, 0.50980395, 0.9647059, 1)
+theme_override_colors/icon_focus_color = Color(0.23137255, 0.50980395, 0.9647059, 1)
+theme_override_colors/icon_pressed_color = Color(0.23137255, 0.50980395, 0.9647059, 1)
+theme_override_colors/icon_hover_color = Color(0.23137255, 0.50980395, 0.9647059, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0.23137255, 0.50980395, 0.9647059, 1)
+theme_override_colors/icon_disabled_color = Color(1, 1, 1, 0.45)
+theme_override_constants/h_separation = 8
+theme_override_constants/icon_max_width = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_action_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_action_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_action_btn_hover")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_action_btn_disabled")
+theme_override_styles/focus = SubResource("StyleBoxFlat_ncioe")
+text = "Advance Time"
+icon = ExtResource("10_tu4q0")
+alignment = 0
+
 [node name="QuickActionsCard3" type="PanelContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer/CenterMargin/CenterVBox/HBoxContainer" unique_id=1838415337]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -3740,6 +3776,45 @@ theme_override_font_sizes/font_size = 12
 text = "34 / 100"
 horizontal_alignment = 2
 
+[node name="EnergyRow" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RightBar/MarginContainer/VBoxContainer/StatsCard/MarginContainer/VBoxContainer/Rows" unique_id=1514699692]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Icon" type="TextureRect" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RightBar/MarginContainer/VBoxContainer/StatsCard/MarginContainer/VBoxContainer/Rows/EnergyRow" unique_id=1285017991]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("20_pmwyn")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RightBar/MarginContainer/VBoxContainer/StatsCard/MarginContainer/VBoxContainer/Rows/EnergyRow" unique_id=177057337]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+theme_override_font_sizes/font_size = 13
+text = "Energy"
+
+[node name="Bar" type="ProgressBar" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RightBar/MarginContainer/VBoxContainer/StatsCard/MarginContainer/VBoxContainer/Rows/EnergyRow" unique_id=572466238]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_pb_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_jbc1f")
+value = 100.0
+show_percentage = false
+
+[node name="Value" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RightBar/MarginContainer/VBoxContainer/StatsCard/MarginContainer/VBoxContainer/Rows/EnergyRow" unique_id=1126398317]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+theme_override_font_sizes/font_size = 12
+text = "100 / 100"
+horizontal_alignment = 2
+
 [node name="RelationshipsCard" type="PanelContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/RightBar/MarginContainer/VBoxContainer" unique_id=1893812415]
 layout_mode = 2
 size_flags_vertical = 3
@@ -4134,3 +4209,5 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 theme_override_font_sizes/font_size = 12
 text = "$2,950"
 horizontal_alignment = 2
+
+[node name="Node" type="Node" parent="." unique_id=450941821]
