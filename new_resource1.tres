@@ -4,4 +4,8 @@
 
 [resource]
 script = ExtResource("1_rqf61")
+job_name = "Customer Service Assistant"
+company_name = "Wallgreens"
+minimum_education_level = 4
+salary = 18000.0
 metadata/_custom_type_script = "uid://c6nmqn58bbki6"

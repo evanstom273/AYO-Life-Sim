@@ -1,6 +1,7 @@
 extends PanelContainer
 
 const MONTH_NAMES: Array[String] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+const MONTH_NAMES_FULL: Array[String] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 const _DANGER_RED := Color(0.9372549, 0.26666668, 0.26666668, 1)
 
 @export var year: int = 2025
@@ -24,6 +25,8 @@ var _debug_last_percent_bucket: int = 10
 # Energy System Variables
 var max_energy: int = 100
 var current_energy: int = 100
+var _player_name: String = ""
+var _player_age: int = 0
 var _energy_timer: Timer
 var _energy_value_tween: Tween
 var _energy_color_tween: Tween
@@ -32,6 +35,9 @@ var _energy_fill_normal_color: Color
 var _root_color_rect: Control
 var _depleted_tween: Tween
 var _micro_shake_tween: Tween
+var _month_start_stats: Dictionary = {}
+var _month_start_year: int = -1
+var _month_start_month_index: int = -1
 
 @onready var _prev_month: Button = get_node("MarginContainer/VBoxContainer/Header/MonthControls/PrevMonth")
 @onready var _next_month: Button = get_node("MarginContainer/VBoxContainer/Header/MonthControls/NextMonth")
@@ -55,12 +61,54 @@ var _micro_shake_tween: Tween
 @onready var _energy_bar: ProgressBar = get_node("/root/Control/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/PanelContainer/CenterMargin/CenterVBox/EnergyHudCard/MarginContainer/Row/Bar")
 
 @onready var _pause_overlay: Control = get_node("/root/Control/PauseOverlay")
-@onready var _resume_button: Button = get_node("/root/Control/PauseOverlay/CenterContainer/VBoxContainer/ResumeButton")
+@onready var _pause_resume_button: Button = get_node("/root/Control/PauseOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/ResumeButton")
+@onready var _pause_settings_button: Button = get_node("/root/Control/PauseOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/SettingsButton")
+@onready var _pause_main_menu_button: Button = get_node("/root/Control/PauseOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/MainMenuButton")
+
+@onready var _settings_overlay: Control = get_node_or_null("/root/Control/SettingsOverlay")
+@onready var _settings_back_button: Button = get_node_or_null("/root/Control/SettingsOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HeaderRow/BackButton")
+@onready var _settings_tabs: TabContainer = get_node_or_null("/root/Control/SettingsOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer")
+@onready var _settings_fullscreen_toggle: CheckButton = get_node_or_null("/root/Control/SettingsOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Display/FullscreenToggle")
+@onready var _settings_resolution_dropdown: OptionButton = get_node_or_null("/root/Control/SettingsOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Display/ResolutionRow/ResolutionDropdown")
+@onready var _settings_ui_scale_slider: HSlider = get_node_or_null("/root/Control/SettingsOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Display/UIScaleRow/UIScaleSlider")
+
+@onready var _settings_master_slider: HSlider = get_node_or_null("/root/Control/SettingsOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Audio/MasterRow/MasterSlider")
+@onready var _settings_music_slider: HSlider = get_node_or_null("/root/Control/SettingsOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Audio/MusicRow/MusicSlider")
+@onready var _settings_sfx_slider: HSlider = get_node_or_null("/root/Control/SettingsOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Audio/SfxRow/SfxSlider")
+@onready var _settings_ui_sounds_toggle: CheckButton = get_node_or_null("/root/Control/SettingsOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Audio/UISoundsToggle")
+
+@onready var _settings_energy_speed_slider: HSlider = get_node_or_null("/root/Control/SettingsOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Gameplay/EnergyRow/EnergySpeedSlider")
+@onready var _settings_energy_speed_value_label: Label = get_node_or_null("/root/Control/SettingsOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Gameplay/EnergyRow/EnergySpeedValueLabel")
+
+@onready var _settings_font_size_dropdown: OptionButton = get_node_or_null("/root/Control/SettingsOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Accessibility/FontSizeRow/FontSizeDropdown")
+@onready var _settings_dyslexia_toggle: CheckButton = get_node_or_null("/root/Control/SettingsOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Accessibility/DyslexiaFontToggle")
+@onready var _settings_reduce_anim_toggle: CheckButton = get_node_or_null("/root/Control/SettingsOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Accessibility/ReduceAnimationsToggle")
+@onready var _settings_colourblind_toggle: CheckButton = get_node_or_null("/root/Control/SettingsOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Accessibility/ColourblindToggle")
+
+@onready var _settings_tooltip_hints_toggle: CheckButton = get_node_or_null("/root/Control/SettingsOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Help/TooltipHintsToggle")
+@onready var _settings_reset_tutorial_button: Button = get_node_or_null("/root/Control/SettingsOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Help/ResetTutorialHintsButton")
+@onready var _settings_reset_defaults_button: Button = get_node_or_null("/root/Control/SettingsOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/TabContainer/Help/ResetDefaultsButton")
+
 @onready var _depleted_overlay: Control = get_node("/root/Control/DepletedOverlay")
 @onready var _depleted_panel: Control = get_node("/root/Control/DepletedOverlay/CenterContainer/PanelContainer")
 
+@onready var _week_transition_overlay: ColorRect = get_node_or_null("/root/Control/WeekTransitionOverlay")
+@onready var _monthly_recap_overlay: Control = get_node_or_null("/root/Control/MonthlyRecapOverlay")
+@onready var _monthly_recap_panel: Control = get_node_or_null("/root/Control/MonthlyRecapOverlay/CenterContainer/PanelContainer")
+@onready var _monthly_recap_heading: Label = get_node_or_null("/root/Control/MonthlyRecapOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HeadingLabel")
+@onready var _monthly_recap_events_empty: Label = get_node_or_null("/root/Control/MonthlyRecapOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/EventsSection/EventsEmptyLabel")
+@onready var _monthly_recap_income_value: Label = get_node_or_null("/root/Control/MonthlyRecapOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/FinancesSection/Grid/IncomeValue")
+@onready var _monthly_recap_expenses_value: Label = get_node_or_null("/root/Control/MonthlyRecapOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/FinancesSection/Grid/ExpensesValue")
+@onready var _monthly_recap_balance_value: Label = get_node_or_null("/root/Control/MonthlyRecapOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/FinancesSection/Grid/BalanceValue")
+@onready var _monthly_recap_stats_empty: Label = get_node_or_null("/root/Control/MonthlyRecapOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/StatsSection/StatsEmptyLabel")
+@onready var _monthly_recap_stats_list: VBoxContainer = get_node_or_null("/root/Control/MonthlyRecapOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/StatsSection/StatsList")
+@onready var _monthly_recap_continue: Button = get_node_or_null("/root/Control/MonthlyRecapOverlay/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ContinueButton")
+
+var _settings_manager: Node
+
 func _ready() -> void:
     _root_color_rect = get_node_or_null("/root/Control/ColorRect")
+    _settings_manager = get_node_or_null("/root/SettingsManager")
 
     _energy_timer = Timer.new()
     _apply_energy_timer_settings()
@@ -72,7 +120,17 @@ func _ready() -> void:
     _next_month.pressed.connect(_on_next_month_pressed)
 
     _next_week_btn.pressed.connect(_on_next_week_button_pressed)
-    _resume_button.pressed.connect(_on_resume_pressed)
+    _pause_resume_button.pressed.connect(_on_resume_pressed)
+    _pause_settings_button.pressed.connect(_on_pause_settings_pressed)
+    _pause_main_menu_button.pressed.connect(_on_pause_main_menu_pressed)
+    if _monthly_recap_continue != null:
+        _monthly_recap_continue.pressed.connect(_on_monthly_recap_continue_pressed)
+    if _settings_back_button != null:
+        _settings_back_button.pressed.connect(_on_settings_back_pressed)
+    if _settings_reset_tutorial_button != null:
+        _settings_reset_tutorial_button.pressed.connect(_on_reset_tutorial_hints_pressed)
+    if _settings_reset_defaults_button != null:
+        _settings_reset_defaults_button.pressed.connect(_on_reset_defaults_pressed)
 
     for i in range(_wk_buttons.size()):
         var b := _wk_buttons[i]
@@ -90,8 +148,10 @@ func _ready() -> void:
     
     reset_energy()
     print("Game Started. Energy: ", current_energy)
+    _ensure_month_snapshot()
 
     _init_energy_bar_style()
+    _init_settings_overlay_ui()
     if debug_log_energy_ticks or debug_log_energy_run_time:
         print("Energy debug enabled. tick_rate=%.2fs ignore_time_scale=%s time_scale=%.2f" % [_energy_timer.wait_time, str(_energy_timer.ignore_time_scale), Engine.time_scale])
 
@@ -106,6 +166,246 @@ func _apply_energy_timer_settings() -> void:
     if _energy_timer.ignore_time_scale != ignore_time_scale:
         _energy_timer.ignore_time_scale = ignore_time_scale
 
+func _init_settings_overlay_ui() -> void:
+    if _settings_manager == null:
+        return
+
+    if _settings_manager.has_signal("setting_changed"):
+        if not _settings_manager.is_connected("setting_changed", Callable(self, "_on_setting_changed")):
+            _settings_manager.connect("setting_changed", Callable(self, "_on_setting_changed"))
+
+    var drain_speed := float(_settings_manager.call("get_value", "gameplay", "energy_drain_speed", 0.40))
+    energy_tick_rate = clampf(drain_speed, 0.1, 1.0)
+    _apply_energy_timer_settings()
+
+    if _settings_fullscreen_toggle != null:
+        var fullscreen := bool(_settings_manager.call("get_value", "display", "fullscreen", false))
+        _settings_fullscreen_toggle.button_pressed = fullscreen
+        if _settings_resolution_dropdown != null:
+            _settings_resolution_dropdown.disabled = fullscreen
+        if not _settings_fullscreen_toggle.toggled.is_connected(_on_settings_fullscreen_toggled):
+            _settings_fullscreen_toggle.toggled.connect(_on_settings_fullscreen_toggled)
+
+    if _settings_resolution_dropdown != null:
+        _settings_resolution_dropdown.clear()
+        var resolutions: Array[String] = ["1280x720", "1600x900", "1920x1080", "2560x1440"]
+        for r in resolutions:
+            _settings_resolution_dropdown.add_item(r)
+        var res_value := str(_settings_manager.call("get_value", "display", "resolution", "1280x720"))
+        var idx := resolutions.find(res_value)
+        if idx < 0:
+            idx = 0
+        _settings_resolution_dropdown.select(idx)
+        if not _settings_resolution_dropdown.item_selected.is_connected(_on_settings_resolution_selected):
+            _settings_resolution_dropdown.item_selected.connect(_on_settings_resolution_selected)
+
+    if _settings_ui_scale_slider != null:
+        var ui_scale_bounds: Vector2 = _settings_manager.call("_get_ui_scale_bounds") as Vector2
+        _settings_ui_scale_slider.min_value = ui_scale_bounds.x
+        _settings_ui_scale_slider.max_value = ui_scale_bounds.y
+        _settings_ui_scale_slider.value = clampf(float(_settings_manager.call("get_value", "display", "ui_scale", 1.0)), ui_scale_bounds.x, ui_scale_bounds.y)
+        if not _settings_ui_scale_slider.value_changed.is_connected(_on_settings_ui_scale_changed):
+            _settings_ui_scale_slider.value_changed.connect(_on_settings_ui_scale_changed)
+
+    if _settings_master_slider != null:
+        _settings_master_slider.value = float(_settings_manager.call("get_value", "audio", "master", 100))
+        if not _settings_master_slider.value_changed.is_connected(_on_settings_master_changed):
+            _settings_master_slider.value_changed.connect(_on_settings_master_changed)
+    if _settings_music_slider != null:
+        _settings_music_slider.value = float(_settings_manager.call("get_value", "audio", "music", 80))
+        if not _settings_music_slider.value_changed.is_connected(_on_settings_music_changed):
+            _settings_music_slider.value_changed.connect(_on_settings_music_changed)
+    if _settings_sfx_slider != null:
+        _settings_sfx_slider.value = float(_settings_manager.call("get_value", "audio", "sfx", 80))
+        if not _settings_sfx_slider.value_changed.is_connected(_on_settings_sfx_changed):
+            _settings_sfx_slider.value_changed.connect(_on_settings_sfx_changed)
+    if _settings_ui_sounds_toggle != null:
+        _settings_ui_sounds_toggle.button_pressed = bool(_settings_manager.call("get_value", "audio", "ui_sounds", true))
+        if not _settings_ui_sounds_toggle.toggled.is_connected(_on_settings_ui_sounds_toggled):
+            _settings_ui_sounds_toggle.toggled.connect(_on_settings_ui_sounds_toggled)
+
+    if _settings_energy_speed_slider != null:
+        _settings_energy_speed_slider.value = energy_tick_rate
+        if not _settings_energy_speed_slider.value_changed.is_connected(_on_settings_energy_speed_changed):
+            _settings_energy_speed_slider.value_changed.connect(_on_settings_energy_speed_changed)
+    _update_energy_speed_value_label()
+
+    if _settings_font_size_dropdown != null:
+        _settings_font_size_dropdown.clear()
+        _settings_font_size_dropdown.add_item("Small")
+        _settings_font_size_dropdown.add_item("Medium")
+        _settings_font_size_dropdown.add_item("Large")
+        var font_size_key := str(_settings_manager.call("get_value", "accessibility", "font_size", "medium"))
+        var font_idx := 1
+        if font_size_key == "small":
+            font_idx = 0
+        elif font_size_key == "large":
+            font_idx = 2
+        _settings_font_size_dropdown.select(font_idx)
+        if not _settings_font_size_dropdown.item_selected.is_connected(_on_settings_font_size_selected):
+            _settings_font_size_dropdown.item_selected.connect(_on_settings_font_size_selected)
+
+    if _settings_dyslexia_toggle != null:
+        _settings_dyslexia_toggle.button_pressed = bool(_settings_manager.call("get_value", "accessibility", "dyslexia_font", false))
+        if not _settings_dyslexia_toggle.toggled.is_connected(_on_settings_dyslexia_toggled):
+            _settings_dyslexia_toggle.toggled.connect(_on_settings_dyslexia_toggled)
+
+    if _settings_reduce_anim_toggle != null:
+        _settings_reduce_anim_toggle.button_pressed = bool(_settings_manager.call("get_value", "accessibility", "reduce_animations", false))
+        if not _settings_reduce_anim_toggle.toggled.is_connected(_on_settings_reduce_animations_toggled):
+            _settings_reduce_anim_toggle.toggled.connect(_on_settings_reduce_animations_toggled)
+
+    if _settings_colourblind_toggle != null:
+        _settings_colourblind_toggle.button_pressed = bool(_settings_manager.call("get_value", "accessibility", "colourblind_mode", false))
+        if not _settings_colourblind_toggle.toggled.is_connected(_on_settings_colourblind_toggled):
+            _settings_colourblind_toggle.toggled.connect(_on_settings_colourblind_toggled)
+
+    if _settings_tooltip_hints_toggle != null:
+        _settings_tooltip_hints_toggle.button_pressed = bool(_settings_manager.call("get_value", "help", "tooltip_hints", true))
+        if not _settings_tooltip_hints_toggle.toggled.is_connected(_on_settings_tooltip_hints_toggled):
+            _settings_tooltip_hints_toggle.toggled.connect(_on_settings_tooltip_hints_toggled)
+
+func _on_setting_changed(section: String, key: String, value: Variant) -> void:
+    if section == "gameplay" and key == "energy_drain_speed":
+        energy_tick_rate = clampf(float(value), 0.1, 1.0)
+        if _settings_energy_speed_slider != null:
+            _settings_energy_speed_slider.value = energy_tick_rate
+        _update_energy_speed_value_label()
+        _apply_energy_timer_settings()
+
+func _on_settings_fullscreen_toggled(pressed: bool) -> void:
+    if _settings_manager != null:
+        _settings_manager.call("set_value", "display", "fullscreen", pressed)
+    if _settings_resolution_dropdown != null:
+        _settings_resolution_dropdown.disabled = pressed
+    _refresh_ui_scale_slider_bounds()
+
+func _on_settings_resolution_selected(index: int) -> void:
+    if _settings_manager == null or _settings_resolution_dropdown == null:
+        return
+    var txt := _settings_resolution_dropdown.get_item_text(index)
+    _settings_manager.call("set_value", "display", "resolution", txt)
+    _refresh_ui_scale_slider_bounds()
+
+func _on_settings_ui_scale_changed(v: float) -> void:
+    if _settings_manager == null:
+        return
+    var bounds: Vector2 = _settings_manager.call("_get_ui_scale_bounds") as Vector2
+    var clamped := clampf(v, bounds.x, bounds.y)
+    if _settings_ui_scale_slider != null and absf(_settings_ui_scale_slider.value - clamped) > 0.0001:
+        _settings_ui_scale_slider.value = clamped
+    _settings_manager.call("set_value", "display", "ui_scale", clamped)
+
+func _refresh_ui_scale_slider_bounds() -> void:
+    if _settings_manager == null or _settings_ui_scale_slider == null:
+        return
+    var bounds: Vector2 = _settings_manager.call("_get_ui_scale_bounds") as Vector2
+    _settings_ui_scale_slider.min_value = bounds.x
+    _settings_ui_scale_slider.max_value = bounds.y
+    _settings_ui_scale_slider.value = clampf(_settings_ui_scale_slider.value, bounds.x, bounds.y)
+
+func _on_settings_master_changed(v: float) -> void:
+    if _settings_manager != null:
+        _settings_manager.call("set_value", "audio", "master", int(round(v)))
+
+func _on_settings_music_changed(v: float) -> void:
+    if _settings_manager != null:
+        _settings_manager.call("set_value", "audio", "music", int(round(v)))
+
+func _on_settings_sfx_changed(v: float) -> void:
+    if _settings_manager != null:
+        _settings_manager.call("set_value", "audio", "sfx", int(round(v)))
+
+func _on_settings_ui_sounds_toggled(pressed: bool) -> void:
+    if _settings_manager != null:
+        _settings_manager.call("set_value", "audio", "ui_sounds", pressed)
+
+func _on_settings_energy_speed_changed(v: float) -> void:
+    energy_tick_rate = clampf(v, 0.1, 1.0)
+    _apply_energy_timer_settings()
+    _update_energy_speed_value_label()
+    if _settings_manager != null:
+        _settings_manager.call("set_value", "gameplay", "energy_drain_speed", v)
+
+func _update_energy_speed_value_label() -> void:
+    if _settings_energy_speed_value_label == null:
+        return
+    var seconds_per_week := float(max_energy) * float(energy_tick_rate)
+    _settings_energy_speed_value_label.text = "%.1fs per week" % seconds_per_week
+
+func _on_settings_font_size_selected(index: int) -> void:
+    if _settings_manager == null:
+        return
+    var key := "medium"
+    if index == 0:
+        key = "small"
+    elif index == 2:
+        key = "large"
+    _settings_manager.call("set_value", "accessibility", "font_size", key)
+
+func _on_settings_dyslexia_toggled(pressed: bool) -> void:
+    if _settings_manager != null:
+        _settings_manager.call("set_value", "accessibility", "dyslexia_font", pressed)
+
+func _on_settings_reduce_animations_toggled(pressed: bool) -> void:
+    if _settings_manager != null:
+        _settings_manager.call("set_value", "accessibility", "reduce_animations", pressed)
+
+func _on_settings_colourblind_toggled(pressed: bool) -> void:
+    if _settings_manager != null:
+        _settings_manager.call("set_value", "accessibility", "colourblind_mode", pressed)
+
+func _on_settings_tooltip_hints_toggled(pressed: bool) -> void:
+    if _settings_manager != null:
+        _settings_manager.call("set_value", "help", "tooltip_hints", pressed)
+
+func set_player_info(name: String, age: int) -> void:
+    _player_name = name.strip_edges()
+    _player_age = age
+    _update_labels()
+    _ensure_month_snapshot()
+
+func set_time(new_year: int, new_month_index: int, new_week_index: int) -> void:
+    year = new_year
+    month_index = clampi(new_month_index, 0, 11)
+    week_index = clampi(new_week_index, 1, 4)
+    _update_week_pressed()
+    _update_labels()
+    _ensure_month_snapshot()
+
+func open_pause_menu() -> void:
+    set_energy_paused(true)
+    if _pause_overlay != null:
+        _pause_overlay.visible = true
+
+func close_pause_menu() -> void:
+    if _settings_overlay != null:
+        _settings_overlay.visible = false
+    set_energy_paused(false)
+    if _pause_overlay != null:
+        _pause_overlay.visible = false
+
+func toggle_pause_menu() -> void:
+    var paused_now := _energy_timer != null and _energy_timer.paused
+    if paused_now:
+        close_pause_menu()
+    else:
+        open_pause_menu()
+
+func toggle_pause() -> void:
+    toggle_pause_menu()
+
+func open_settings_overlay() -> void:
+    if _settings_overlay == null:
+        return
+    _settings_overlay.visible = true
+    set_energy_paused(true)
+
+func close_settings_overlay() -> void:
+    if _settings_overlay == null:
+        return
+    _settings_overlay.visible = false
+
 # --- INPUT HANDLING ---
 func _input(event: InputEvent) -> void:
     if _depleted_overlay.visible:
@@ -113,10 +413,16 @@ func _input(event: InputEvent) -> void:
             _on_next_week_button_pressed()
         return
 
+    if _monthly_recap_overlay != null and _monthly_recap_overlay.visible:
+        if event.is_action_pressed("ui_cancel"):
+            _dismiss_monthly_recap()
+        return
+
     if event.is_action_pressed("ui_cancel"):
-        var new_paused := not (_energy_timer != null and _energy_timer.paused)
-        set_energy_paused(new_paused)
-        _pause_overlay.visible = new_paused
+        if _settings_overlay != null and _settings_overlay.visible:
+            close_settings_overlay()
+            return
+        toggle_pause_menu()
         return
 
     if event is InputEventKey and event.pressed:
@@ -126,11 +432,232 @@ func _input(event: InputEvent) -> void:
             attempt_action()
 
 func _on_resume_pressed() -> void:
-    set_energy_paused(false)
-    _pause_overlay.visible = false
+    close_pause_menu()
+
+func _on_pause_settings_pressed() -> void:
+    open_settings_overlay()
+
+func _on_pause_main_menu_pressed() -> void:
+    set_energy_paused(true)
+    SaveGame.autosave(_get_player_data(), self)
+    if _pause_overlay != null:
+        _pause_overlay.visible = false
+    if _settings_overlay != null:
+        _settings_overlay.visible = false
+    if SceneTransitions != null:
+        SceneTransitions.go_to("res://scenes/main/MainMenu.tscn")
+
+func _on_settings_back_pressed() -> void:
+    close_settings_overlay()
+
+func _on_reset_tutorial_hints_pressed() -> void:
+    if _settings_manager != null and _settings_manager.has_method("reset_tutorial_hints"):
+        _settings_manager.call("reset_tutorial_hints")
+
+func _on_reset_defaults_pressed() -> void:
+    if _settings_manager != null and _settings_manager.has_method("reset_to_defaults"):
+        _settings_manager.call("reset_to_defaults")
+        _init_settings_overlay_ui()
 
 func _on_next_week_button_pressed() -> void:
+    await _advance_week_with_transition()
+
+func _on_monthly_recap_continue_pressed() -> void:
+    _dismiss_monthly_recap()
+
+func _advance_week_with_transition() -> void:
+    var old_year := year
+    var old_month_index := month_index
+
+    if _week_transition_overlay == null:
+        advance_time(1)
+        if year != old_year or month_index != old_month_index:
+            _show_monthly_recap(old_year, old_month_index)
+        return
+
+    _week_transition_overlay.visible = true
+    _week_transition_overlay.modulate.a = 0.0
+    var out_tween := create_tween()
+    out_tween.set_trans(Tween.TRANS_SINE)
+    out_tween.set_ease(Tween.EASE_IN_OUT)
+    out_tween.tween_property(_week_transition_overlay, "modulate:a", 1.0, 0.18)
+    await out_tween.finished
+
     advance_time(1)
+
+    if year != old_year or month_index != old_month_index:
+        _show_monthly_recap(old_year, old_month_index)
+        return
+
+    var in_tween := create_tween()
+    in_tween.set_trans(Tween.TRANS_SINE)
+    in_tween.set_ease(Tween.EASE_IN_OUT)
+    in_tween.tween_property(_week_transition_overlay, "modulate:a", 0.0, 0.18)
+    await in_tween.finished
+    _week_transition_overlay.visible = false
+
+func _show_monthly_recap(prev_year: int, prev_month_index: int) -> void:
+    if _monthly_recap_overlay == null:
+        return
+    if _pause_overlay != null:
+        _pause_overlay.visible = false
+    if _settings_overlay != null:
+        _settings_overlay.visible = false
+    if _depleted_overlay != null:
+        _depleted_overlay.visible = false
+
+    _monthly_recap_overlay.visible = true
+    _monthly_recap_overlay.modulate.a = 0.0
+    if _monthly_recap_panel != null:
+        _monthly_recap_panel.pivot_offset = _monthly_recap_panel.size * 0.5
+        _monthly_recap_panel.scale = Vector2.ONE * 0.96
+        _monthly_recap_panel.modulate.a = 0.0
+    set_energy_paused(true)
+
+    var show_tween := create_tween()
+    show_tween.set_trans(Tween.TRANS_SINE)
+    show_tween.set_ease(Tween.EASE_IN_OUT)
+    show_tween.set_parallel(true)
+    show_tween.tween_property(_monthly_recap_overlay, "modulate:a", 1.0, 0.16)
+    if _monthly_recap_panel != null:
+        show_tween.tween_property(_monthly_recap_panel, "modulate:a", 1.0, 0.16)
+        show_tween.tween_property(_monthly_recap_panel, "scale", Vector2.ONE, 0.2)
+    if _week_transition_overlay != null and _week_transition_overlay.visible:
+        show_tween.tween_property(_week_transition_overlay, "modulate:a", 0.0, 0.16)
+        show_tween.finished.connect(func() -> void:
+            if _week_transition_overlay != null:
+                _week_transition_overlay.visible = false
+        )
+
+    var heading_month := MONTH_NAMES_FULL[clampi(prev_month_index, 0, 11)]
+    if _monthly_recap_heading != null:
+        _monthly_recap_heading.text = "%s %d" % [heading_month, prev_year]
+
+    if _monthly_recap_events_empty != null:
+        _monthly_recap_events_empty.visible = true
+
+    var player_data := _get_player_data()
+    var income: float = 0.0
+    var balance: float = 0.0
+    if player_data != null:
+        balance = player_data.bank_balance
+        if player_data.current_job != null:
+            income = player_data.current_job.salary / 12.0
+
+    if _monthly_recap_income_value != null:
+        _monthly_recap_income_value.text = _format_money(income)
+    if _monthly_recap_expenses_value != null:
+        _monthly_recap_expenses_value.text = _format_money(0.0)
+    if _monthly_recap_balance_value != null:
+        _monthly_recap_balance_value.text = _format_money(balance)
+
+    _populate_monthly_stat_changes(player_data)
+
+func _dismiss_monthly_recap() -> void:
+    if _monthly_recap_overlay == null or not _monthly_recap_overlay.visible:
+        return
+    _monthly_recap_overlay.modulate.a = 1.0
+    _monthly_recap_overlay.visible = false
+    _capture_month_snapshot()
+    set_energy_paused(false)
+
+    if _week_transition_overlay != null and _week_transition_overlay.visible:
+        var in_tween := create_tween()
+        in_tween.set_trans(Tween.TRANS_SINE)
+        in_tween.set_ease(Tween.EASE_IN_OUT)
+        in_tween.tween_property(_week_transition_overlay, "modulate:a", 0.0, 0.18)
+        in_tween.finished.connect(func() -> void:
+            if _week_transition_overlay != null:
+                _week_transition_overlay.visible = false
+        )
+
+func _populate_monthly_stat_changes(player_data: PeopleResource) -> void:
+    if _monthly_recap_stats_list != null:
+        for c in _monthly_recap_stats_list.get_children():
+            c.queue_free()
+
+    if player_data == null or _month_start_stats.is_empty():
+        if _monthly_recap_stats_empty != null:
+            _monthly_recap_stats_empty.visible = true
+        if _monthly_recap_stats_list != null:
+            _monthly_recap_stats_list.visible = false
+        return
+
+    var deltas: Array[String] = []
+    deltas.append_array(_stat_delta_lines("Health", player_data.Health))
+    deltas.append_array(_stat_delta_lines("Happiness", player_data.Happiness))
+    deltas.append_array(_stat_delta_lines("Smarts", player_data.Smarts))
+    deltas.append_array(_stat_delta_lines("Looks", player_data.Looks))
+    deltas.append_array(_stat_delta_lines("Fitness", player_data.Fitness))
+    deltas.append_array(_stat_delta_lines("Stress", player_data.Stress))
+
+    if deltas.is_empty():
+        if _monthly_recap_stats_empty != null:
+            _monthly_recap_stats_empty.visible = true
+        if _monthly_recap_stats_list != null:
+            _monthly_recap_stats_list.visible = false
+        return
+
+    if _monthly_recap_stats_empty != null:
+        _monthly_recap_stats_empty.visible = false
+    if _monthly_recap_stats_list != null:
+        _monthly_recap_stats_list.visible = true
+        for line in deltas:
+            var l := Label.new()
+            l.text = line
+            _monthly_recap_stats_list.add_child(l)
+
+func _stat_delta_lines(stat_name: String, current_value: float) -> Array[String]:
+    if not _month_start_stats.has(stat_name):
+        return []
+    var start_value := float(_month_start_stats[stat_name])
+    var delta := int(round(current_value - start_value))
+    if delta == 0:
+        return []
+    return ["%s %s" % [("%+d" % delta), stat_name]]
+
+func _ensure_month_snapshot() -> void:
+    if _month_start_year >= 0 and _month_start_month_index >= 0:
+        return
+    _capture_month_snapshot()
+
+func _capture_month_snapshot() -> void:
+    var player_data := _get_player_data()
+    if player_data == null:
+        return
+    _month_start_year = year
+    _month_start_month_index = month_index
+    _month_start_stats = {
+        "Health": player_data.Health,
+        "Happiness": player_data.Happiness,
+        "Smarts": player_data.Smarts,
+        "Looks": player_data.Looks,
+        "Fitness": player_data.Fitness,
+        "Stress": player_data.Stress,
+    }
+
+func _get_player_data() -> PeopleResource:
+    var root := get_node_or_null("/root/Control")
+    if root == null:
+        return null
+    var pd: PeopleResource = root.get("player_data") as PeopleResource
+    return pd
+
+func _format_money(amount: float) -> String:
+    var is_negative := amount < 0.0
+    var n := int(round(absf(amount)))
+    var s := str(n)
+    var formatted: String = ""
+    var group_len := 0
+    for i in range(s.length() - 1, -1, -1):
+        formatted = s.substr(i, 1) + formatted
+        group_len += 1
+        if group_len == 3 and i != 0:
+            formatted = "," + formatted
+            group_len = 0
+    if is_negative:
+        return "-$%s" % formatted
+    return "$%s" % formatted
 
 # --- ENERGY SYSTEM ---
 func _on_energy_tick() -> void:
@@ -403,9 +930,5 @@ func _update_labels() -> void:
     
     _month_label.text = "%s %d" % [month, year]
     _helper.text = "%s  •  Wk%d" % [month, wi]
-    
-    # --- ADD THIS ---
-    # We format the string exactly like your screenshot, upper-casing the month
-    if _meta_label:
-        # Keep "ADAM JOHNSON  •  🗓  Age: 24  •  " at the start, but update the time dynamically!
-        _meta_label.text = "ADAM JOHNSON  •  🗓  Age: 24  •  Year: %d / Month: %s / Week: %d" % [year, month, wi]
+    if _meta_label != null and not _player_name.is_empty():
+        _meta_label.text = "%s  •  🗓  Age: %d  •  Year: %d / Month: %s / Week: %d" % [_player_name, _player_age, year, month, wi]

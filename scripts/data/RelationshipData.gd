@@ -161,3 +161,40 @@ func _update_defaults_from_type() -> void:
             family_link_type = FamilyLinkType.NONE
             romance_type = RomanceType.NONE
             relationship_status = RelationshipStatus.ACTIVE
+
+func get_type_color() -> Color:
+    match relationship_type:
+        RelationshipType.PARENT:
+            if related_person != null:
+                match related_person.person_gender:
+                    PeopleResource.Gender.FEMALE:
+                        return Color(0.7411765, 0.41960785, 0.9607843, 1)
+                    PeopleResource.Gender.MALE:
+                        return Color(0.14509805, 0.3882353, 0.92156863, 1)
+                    _:
+                        return Color(0.23137255, 0.50980395, 0.9647059, 1)
+            return Color(0.23137255, 0.50980395, 0.9647059, 1)
+        RelationshipType.SIBLING:
+            return Color(0.23137255, 0.50980395, 0.9647059, 1)
+        RelationshipType.CHILD:
+            return Color(0.1882353, 0.6392157, 0.38431373, 1)
+        RelationshipType.PARTNER:
+            return Color(0.7411765, 0.41960785, 0.9607843, 1)
+        RelationshipType.EX_PARTNER:
+            return Color(0.9372549, 0.26666668, 0.26666668, 1)
+        RelationshipType.FRIEND:
+            return Color(0.1882353, 0.6392157, 0.38431373, 1)
+        RelationshipType.BEST_FRIEND:
+            return Color(0.7411765, 0.41960785, 0.9607843, 1)
+        RelationshipType.ENEMY:
+            return Color(0.9372549, 0.26666668, 0.26666668, 1)
+        RelationshipType.ACQUAINTANCE:
+            return Color(0.56941175, 0.58000004, 0.5905882, 1)
+        RelationshipType.BOSS:
+            return Color(0.9647059, 0.54509807, 0.14117648, 1)
+        RelationshipType.COWORKER:
+            return Color(0.14509805, 0.3882353, 0.92156863, 1)
+        RelationshipType.OTHER:
+            return Color(0.56941175, 0.58000004, 0.5905882, 1)
+        _:
+            return Color(0.56941175, 0.58000004, 0.5905882, 1)

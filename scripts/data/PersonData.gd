@@ -20,6 +20,7 @@ const MIN_JOB_AGE := 16
 
 @export var person_age_group: PeopleAge = PeopleAge.BABY
 @export var person_gender: Gender = Gender.NONE
+@export_range(1, 12, 1) var birth_month: int = 1
 @export var person_region: Region = Region.NORTH_AMERICA
 @export var current_education: EducationLevel
 @export var highest_education_completed: EducationLevel

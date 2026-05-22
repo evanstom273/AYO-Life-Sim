@@ -2,13 +2,75 @@
 
 [ext_resource type="Script" uid="uid://h2lj6qnbr8k4" path="res://scripts/data/PersonData.gd" id="1_g5ko2"]
 [ext_resource type="Script" uid="uid://c42nwkeosjkq7" path="res://scripts/data/RelationshipData.gd" id="2_1ivwu"]
+[ext_resource type="Resource" uid="uid://vehi85al6ikm" path="res://new_resource1.tres" id="2_3gp3i"]
 [ext_resource type="Script" uid="uid://c6nmqn58bbki6" path="res://scripts/data/JobData.gd" id="2_uauhc"]
+
+[sub_resource type="Resource" id="Resource_xonew"]
+script = ExtResource("1_g5ko2")
+person_name = "Test's Father"
+person_age = 50
+person_age_group = 5
+person_gender = 1
+metadata/_custom_type_script = "uid://h2lj6qnbr8k4"
+
+[sub_resource type="Resource" id="Resource_y3mkl"]
+script = ExtResource("2_1ivwu")
+related_person = SubResource("Resource_xonew")
+relationship_type = 1
+relationship_status = 3
+family_link_type = 1
+metadata/_custom_type_script = "uid://c42nwkeosjkq7"
+
+[sub_resource type="Resource" id="Resource_3gp3i"]
+script = ExtResource("1_g5ko2")
+person_name = "Test's Mother"
+person_age = 45
+person_age_group = 5
+person_gender = 2
+metadata/_custom_type_script = "uid://h2lj6qnbr8k4"
 
 [sub_resource type="Resource" id="Resource_uauhc"]
 script = ExtResource("2_1ivwu")
+related_person = SubResource("Resource_3gp3i")
+relationship_type = 1
+relationship_direction = 1
+family_link_type = 1
+metadata/_custom_type_script = "uid://c42nwkeosjkq7"
+
+[sub_resource type="Resource" id="Resource_ihbpk"]
+script = ExtResource("1_g5ko2")
+person_name = "Testette"
+person_age = 21
+person_age_group = 4
+person_gender = 2
+metadata/_custom_type_script = "uid://h2lj6qnbr8k4"
+
+[sub_resource type="Resource" id="Resource_g03ti"]
+script = ExtResource("2_1ivwu")
+related_person = SubResource("Resource_ihbpk")
+relationship_type = 4
+romance_type = 3
 metadata/_custom_type_script = "uid://c42nwkeosjkq7"
 
 [resource]
 script = ExtResource("1_g5ko2")
+person_name = "Test"
+person_age = 19
+person_age_group = 4
+person_gender = 1
+birth_month = 6
+person_region = 2
+current_education = 5
+highest_education_completed = 4
+Health = 100.0
+Happiness = 100.0
+Looks = 100.0
+Fitness = 100.0
+Smarts = 100.0
+Stress = 56.0
 mother_relationship = SubResource("Resource_uauhc")
+father_relationship = SubResource("Resource_y3mkl")
+partner_relationship = SubResource("Resource_g03ti")
+bank_balance = 20000.0
+current_job = ExtResource("2_3gp3i")
 metadata/_custom_type_script = "uid://h2lj6qnbr8k4"

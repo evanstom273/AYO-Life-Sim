@@ -21,6 +21,7 @@ GlobalShortcuts="*res://scripts/GlobalShortcuts.gd"
 SceneTransitions="*res://scripts/SceneTransitions.gd"
 UIAnimator="*res://scripts/UIAnimator.gd"
 DarkMode="*res://scripts/DarkMode.gd"
+SettingsManager="*res://scripts/SettingsManager.gd"
 
 [display]
 
@@ -30,6 +31,10 @@ window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[audio]
+
+buses/default_bus_layout="res://audio/bus_layout.tres"
 
 [gui]
 

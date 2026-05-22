@@ -100,6 +100,12 @@ func _anim_to(c: Control, target_scale: Vector2, target_modulate: Color, duratio
     if existing != null and existing.has_method("kill"):
         existing.kill()
 
+    var settings := get_node_or_null("/root/SettingsManager")
+    if settings != null and settings.has_method("get_reduce_animations") and bool(settings.call("get_reduce_animations")):
+        c.scale = target_scale
+        c.self_modulate = target_modulate
+        return
+
     var t := create_tween()
     t.set_parallel(true)
     t.set_trans(Tween.TRANS_QUAD)

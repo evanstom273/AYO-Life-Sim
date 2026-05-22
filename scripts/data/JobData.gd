@@ -4,6 +4,7 @@ class_name JobResource
 
 @export_group("Job Info")
 @export var job_name: String = ""
+@export var company_name: String = ""
 @export var minimum_education_level = PeopleResource.EducationLevel.NONE
 @export_range(0, 100000, 1000) var salary: float = 0
 
